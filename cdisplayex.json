@@ -1,0 +1,78 @@
+{
+    "version": "1.10.33",
+    "description": "A light, efficient CBZ/CBR reader",
+    "homepage": "https://www.cdisplayex.com/",
+    "license": {
+        "identifier": "Freeware",
+        "url": "http://www.cdisplayex.com/eula"
+    },
+    "notes": [
+        "To set file associations and add CDisplayEx to the shell menu run:",
+        "reg import \"$dir\\install-context.reg\""
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/mockuser404/bin-cdex/releases/download/v1.10.33/CDisplayExWin64v1.10.33.zip",
+            "hash": "8013f3ce6bb55e62640105922917ba277ebdf0bd04d8068239f04465a17bee3a"
+        },
+        "32bit": {
+            "url": "https://github.com/mockuser404/bin-cdex/releases/download/v1.10.33/CDisplayExWin32v1.10.33.zip",
+            "hash": "768fdfb0c01d6084f24279c3c1c12b91afe0f30ef91702c5440912d7caf2062a"
+        }
+    },
+    "post_install": [
+        "Copy-Item \"$bucketsdir\\extras\\scripts\\cdisplayex\\install-context.reg\" -Destination \"$dir\\install-context.reg\"",
+        "Copy-Item \"$bucketsdir\\extras\\scripts\\cdisplayex\\uninstall-context.reg\" -Destination \"$dir\\uninstall-context.reg\"",
+        "$cdispshellpath = \"$dir\\CDispShell.dll\".Replace('\\', '\\\\')",
+        "If (Test-Path \"$dir\\install-context.reg\") {",
+        "   $content = Get-Content \"$dir\\install-context.reg\"",
+        "   $content = $content.Replace('$cdispshellpath', $cdispshellpath)",
+        "   If ($global) {",
+        "       $content = $content.Replace('HKEY_CURRENT_USER', 'HKEY_LOCAL_MACHINE')",
+        "   }",
+        "   $content | Set-Content -Path \"$dir\\install-context.reg\"",
+        "}",
+        "If (Test-Path \"$dir\\uninstall-context.reg\") {",
+        "   $content = Get-Content \"$dir\\uninstall-context.reg\"",
+        "   If ($global) {",
+        "       $content = $content.Replace('HKEY_CURRENT_USER', 'HKEY_LOCAL_MACHINE')",
+        "   }",
+        "   $content | Set-Content -Path \"$dir\\uninstall-context.reg\"",
+        "}",
+        "regsvr32.exe /s /n /i \"$dir\\CDispShell.dll\""
+    ],
+    "bin": "CDisplayEx.exe",
+    "shortcuts": [
+        [
+            "CDisplayEx.exe",
+            "CDisplayEx"
+        ]
+    ],
+    "uninstaller": {
+        "script": [
+            "$ukey = \"HKCU:\\SOFTWARE\\Classes\\CDispShell.CDISPSHELL\"",
+            "$mkey = \"HKLM:\\SOFTWARE\\Classes\\CDispShell.CDISPSHELL\"",
+            "If ((Test-Path -Path \"$ukey\") -Or (Test-Path -Path \"$mkey\")) {",
+            "   Write-Host \"Unregister shell menu \" -NoNewLine",
+            "   reg import \"$dir\\uninstall-context.reg\"",
+            "}",
+            "regsvr32.exe /U /s \"$dir\\CDispShell.dll\""
+        ]
+    },
+    "checkver": {
+        "github": "https://github.com/mockuser404/bin-cdex"
+    },
+    "autoupdate": {
+        "architecture": {
+            "32bit": {
+                "url": "https://github.com/mockuser404/bin-cdex/releases/download/$version/CDisplayExWin32$version.zip"
+            },
+            "64bit": {
+                "url": "https://github.com/mockuser404/bin-cdex/releases/download/$version/CDisplayExWin64$version.zip"
+            }
+        },
+        "hash": {
+            "url": "$url.sha256"
+        }
+    }
+}

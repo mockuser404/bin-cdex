@@ -1,0 +1,27 @@
+Windows Registry Editor Version 5.00
+
+; [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\CDisplayEx.exe\shell\open\command]
+; @="\"$cdisplayexpath\" \"%1\""
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\CDispShell.CDISPSHELL\Clsid]
+@="{EF7605D6-C512-4F90-827B-5DE32DAB94F7}"
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{EF7605D6-C512-4F90-827B-5DE32DAB94F7}\InprocServer32]
+@="$cdispshellpath"
+"ThreadingModel"="Apartment"
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{EF7605D6-C512-4F90-827B-5DE32DAB94F7}\ProgID]
+@="CDispShell.CDISPSHELL"
+
+; [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\CDisplayEx.exe\SupportedTypes]
+; ".cbr"=""
+; ".cbz"=""
+; ".cbt"=""
+; ".cb7"=""
+
+; [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts]
+; "Applications\\CDisplayEx.exe_.cbr"=dword:00000000
+; "Applications\\CDisplayEx.exe_.cbz"=dword:00000000
+; "Applications\\CDisplayEx.exe_.cbt"=dword:00000000
+; "Applications\\CDisplayEx.exe_.cb7"=dword:00000000
+

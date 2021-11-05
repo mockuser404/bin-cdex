@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+; [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\CDisplayEx.exe]
+; [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts]
+; "Applications\\CDisplayEx.exe_.cbr"=-
+; "Applications\\CDisplayEx.exe_.cbz"=-
+; "Applications\\CDisplayEx.exe_.cbt"=-
+; "Applications\\CDisplayEx.exe_.cb7"=-
+
+[-HKEY_CURRENT_USER\SOFTWARE\Classes\CDispShell.CDISPSHELL]
+[-HKEY_CURRENT_USER\SOFTWARE\Classes\CLSID\{EF7605D6-C512-4F90-827B-5DE32DAB94F7}]
