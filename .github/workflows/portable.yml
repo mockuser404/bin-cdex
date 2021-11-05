@@ -34,7 +34,7 @@ jobs:
       - name: Zip portable
         run: |
           cd portable
-          rm uninst00*
+          rm unins00*
           7z a -tzip CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.zip .
           sha256sum.exe CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.zip > CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.zip.sha256
           cp ..\CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.exe .
