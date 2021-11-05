@@ -1,0 +1,52 @@
+name: Build Portable
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0' # weekly once
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        arch: ['64', '32']
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.4.0
+      - name: Download setup
+        shell: bash
+        id: setup_dl
+        run: |
+          mkdir temp
+          cd temp
+          curl "https://www.cdisplayex.com/findit.php" -H "Content-Type: application/x-www-form-urlencoded" -H "Referer: https://www.cdisplayex.com/" --data-raw "os=win${{matrix.arch}}" -OJ
+          filename=$(ls -1)
+          echo $filename
+          version=$(echo $filename | cut -d'v' -f2 | cut -d'.' -f-3)
+          echo "::set-output name=version::v$version"
+          mv * ..
+          cd ..
+          rm -rf temp
+      - name: Extract installer
+        run: |
+          .\CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.exe /DIR="portable" /LOG="logfile.log" /COMPONENTS="main,uninstallable,assoc,assoc\cbz,assoc\cbr,assoc\cbt,assoc\cb7,lang,lang\fr,lang\es,lang\gl,lang\ca,lang\sv,lang\tr,lang\it,lang\ru,lang\da,lang\nb,lang\fa,lang\pt_br,lang\nl_nl,lang\zh_cn,lang\zh_tw,lang\ja_jp,lang\cs_cz,lang\de_de,lang\ar_eg,lang\pl_pl,lang\sl_si,lang\hu_hu,lang\pt_pt,lang\vi_vn,lang\uk_ua,lang\el_gr,lang\bn_in,shell,pdf,pdf\assoc" /VERYSILENT /SAVEINF="cdexinfo.nfo" /NORESTART /SUPPRESSMSGBOXES
+      - name: Zip portable
+        run: |
+          cd portable
+          rm uninst00*
+          7z a -tzip CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.zip .
+          sha256sum.exe CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.zip > CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.zip.sha256
+          cp ..\CDisplayExWin${{matrix.arch}}${{steps.setup_dl.outputs.version}}.exe .
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{steps.setup_dl.outputs.version}}
+          files: |
+            portable/*.sha256
+            portable/*.zip
+            portable/*${{steps.setup_dl.outputs.version}}.exe
+      - name: View details
+        run: |
+          cd portable
+          dir
