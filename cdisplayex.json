@@ -13,11 +13,11 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/mockuser404/bin-cdex/releases/download/v1.10.33/CDisplayExWin64v1.10.33.zip",
-            "hash": "8013f3ce6bb55e62640105922917ba277ebdf0bd04d8068239f04465a17bee3a"
+            "hash": "1e2f95e69f05a2f1b833006beedf49650147eb8161a908e96a5825a6a154c05c"
         },
         "32bit": {
             "url": "https://github.com/mockuser404/bin-cdex/releases/download/v1.10.33/CDisplayExWin32v1.10.33.zip",
-            "hash": "768fdfb0c01d6084f24279c3c1c12b91afe0f30ef91702c5440912d7caf2062a"
+            "hash": "94a18e995be2efa48a157b267f1bec067ebac4674e7c7e800e883e0f237116cb"
         }
     },
     "post_install": [
